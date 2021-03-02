@@ -22,22 +22,20 @@ Below is an example of how the YTS SDK can be set up.
 ```java
 
 // Http client settings
-HttpClientConfig httpClientConfig = new HttpClientConfig.Builder("The base URL of the YTS sandbox or the production environment here")
-.setKeyStore("TLS keystore on the classpath", "keystore passwords")
-.setTimeouts(3000, 3000)
-.setLogRequestsResponses(true) // enables full request/response logging, so be mindful of logging sensitive data on prd environments
-.build();
+HttpClientConfig httpClientConfig = new HttpClientConfig.Builder("https://api.sandbox.yolt.io")
+    .setKeyStore("classpath/to/keystore.pfx", "pw")
+    .setTimeouts(2000, 2000)
+    .setLogRequestsResponses(true) // Logs full request / response body and headers
+    .build();
 
-// Signing settings - used for signing the token request for YTS. See https://developer.yolt.com/docs/getting-started#connect-to-yts
+// Signing settings
 AccessTokenConfig signingConfig = new AccessTokenConfig(
-appProperties.getSigningKeyStore(), // keystore on the classpath
-appProperties.getSigningKeyStorePw(), // keystore password
-appProperties.getSigningKeyAlias(),  // key alias
-environmentClient.getClient().getYtsSignatureVerificationKeyId()); // The id under which the public verification key is known by YTS (Check in the dev portal)
+"classpath/to/keystore.pfx",
+"pw",
+"signing-key-alias",
+"5cd24c9c-7bc0-42fb-aa3d-135bb2361481");
 
-YTS yts = new YTS(appProperties.getClientId(),
-signingConfig,
-httpClientConfig);
+YTS yts = new YTS(appProperties.getClientId(), signingConfig, httpClientConfig);
 
 ```
 The `YTS` class is the single point of entry for all API calls. 
