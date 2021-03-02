@@ -17,29 +17,28 @@ The SDK needs the following information to be able to work with YTS API.
 - The TLS client certificate used to set up an mTLS connection with YTS
 - The signing key used to sign token requests
 
-Below is an example of how the YTS SDK can be set up in a Spring environment.
+Below is an example of how the YTS SDK can be set up.
 
 ```java
-    @Bean
-    public YTS ytsClient(EnvironmentClient environmentClient) {
-        // Http client settings
-        HttpClientConfig httpClientConfig = new HttpClientConfig.Builder("The base URL of the YTS sandbox or the production environment here")
-                .setKeyStore("TLS keystore on the classpath", "keystore passwords")
-                .setTimeouts(3000, 3000)
-                .setLogRequestsResponses(true) // enables full request/response logging, so be mindful of logging sensitive data on prd environments
-                .build();
 
-        // Signing settings - used for signing the token request for YTS. See https://developer.yolt.com/docs/getting-started#connect-to-yts
-        AccessTokenConfig signingConfig = new AccessTokenConfig(
-                appProperties.getSigningKeyStore(), // keystore on the classpath
-                appProperties.getSigningKeyStorePw(), // keystore password
-                appProperties.getSigningKeyAlias(),  // key alias
-                environmentClient.getClient().getYtsSignatureVerificationKeyId()); // The id under which the public verification key is known by YTS (Check in the dev portal)
+// Http client settings
+HttpClientConfig httpClientConfig = new HttpClientConfig.Builder("The base URL of the YTS sandbox or the production environment here")
+.setKeyStore("TLS keystore on the classpath", "keystore passwords")
+.setTimeouts(3000, 3000)
+.setLogRequestsResponses(true) // enables full request/response logging, so be mindful of logging sensitive data on prd environments
+.build();
 
-        return new YTS(appProperties.getClientId(),
-                signingConfig,
-                httpClientConfig);
-    }
+// Signing settings - used for signing the token request for YTS. See https://developer.yolt.com/docs/getting-started#connect-to-yts
+AccessTokenConfig signingConfig = new AccessTokenConfig(
+appProperties.getSigningKeyStore(), // keystore on the classpath
+appProperties.getSigningKeyStorePw(), // keystore password
+appProperties.getSigningKeyAlias(),  // key alias
+environmentClient.getClient().getYtsSignatureVerificationKeyId()); // The id under which the public verification key is known by YTS (Check in the dev portal)
+
+YTS yts = new YTS(appProperties.getClientId(),
+signingConfig,
+httpClientConfig);
+
 ```
 The `YTS` class is the single point of entry for all API calls. 
 
