@@ -23,7 +23,7 @@ Below is an example of how the YTS SDK can be set up.
 
 // Http client settings
 HttpClientConfig httpClientConfig = new HttpClientConfig.Builder("https://api.sandbox.yolt.io")
-    .setKeyStore("classpath/to/keystore.pfx", "pw")
+    .setKeyStore("classpath/to/keystore.pfx", "keystore-pw")
     .setTimeouts(2000, 2000)
     .setLogRequestsResponses(true) // Logs full request / response body and headers
     .build();
@@ -31,7 +31,7 @@ HttpClientConfig httpClientConfig = new HttpClientConfig.Builder("https://api.sa
 // Signing settings
 AccessTokenConfig signingConfig = new AccessTokenConfig(
 "classpath/to/keystore.pfx",
-"pw",
+"keystore-pw",
 "signing-key-alias",
 "5cd24c9c-7bc0-42fb-aa3d-135bb2361481");
 
