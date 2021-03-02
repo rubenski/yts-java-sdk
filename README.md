@@ -54,13 +54,13 @@ This JDK uses Jetty HTTP client under the surface. Jetty is an easy to configure
 request and response body and headers, which helps when debugging potential issues.
 
 ### Token fetching
-The default strategy for fetching access tokens from YTS is `SlightlyLazyAccessTokenStrategy`. This strategy loads a token 
-whenever there is no existing token or the existing token is more than 9 minutes old. It keeps fetched tokens in memory
-until a new token is needed and then fetches a new one automatically. It is slightly laze in the sense that it will 
-only get a new token once it discovers that a new token is needed for a call made by a client of the SDK. 
+The SDK takes care of fetching tokens internally, so clients don't have to request and track access tokens when using 
+this SDK. The default strategy the SDK uses for fetching access tokens from YTS is `SlightlyLazyAccessTokenStrategy`. 
+This strategy loads a token whenever there is no existing token, or the existing token is more than 9 minutes old. 
+It is slightly lazy in the sense that it will only get a new token when a client makes a request.
 
 A more elegant implementation of the `AccessTokenStrategy` could fetch a token in a background thread. However, implementers
-must make sure that such a process is robuts and can recover from any potential problems such as downtime or HTTP errors.
+must make sure that such a process is robust and can recover from potential problems such as downtime or HTTP errors.
 
 ### Scraping and embedded flow
 Embedded flow where the user provides credentials via the client app frontend is currently not yet supported in this SDK. 
