@@ -1,8 +1,14 @@
 # Java SDK for YTS
 
 Yolt Technology Services (YTS) is a service that provides access to PSD2 APIs of European banks through a single easy to use
-API. Read the docs at https://developer.yolt.com/docs. This Java SDK is a personal project that further simplifies connecting
-to YTS API.
+API enabling use cases like personal financial management, credit scoring, one-off payments, recurring payments, 
+debt collection, instant lending and others.
+
+Read the docs at https://developer.yolt.com/docs. 
+
+This Java SDK is a personal project that further simplifies connecting to YTS API. 
+This SDK is not an official YTS product and comes without YTS support or guarantees. 
+Please direct any questions you may have at me directly.
 
 ### Setting up the SDK
 The SDK needs the following information to be able to work with YTS API.
