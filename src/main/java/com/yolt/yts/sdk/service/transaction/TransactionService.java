@@ -51,6 +51,19 @@ public class TransactionService {
         return getTransactionsFromYts(token, userId, dateInterval, accountIds, next);
     }
 
+    public SimilarTransactionsForUpdates getSimilarTransactionsByMerchant(AccessToken token, UUID userId) {
+        // /v1/users/{userId}/similar-transactions/counterparty
+        return webClient.get()
+                .uri(uriBuilder -> {
+                    return uriBuilder.path(String.format("%s/%s", PATH_SIMILAR_TRANSACTIONS, "counterparty")).build();
+                })
+                .header(HEADER_CONTENT_TYPE, "application/json")
+                .header(HEADER_AUTHORIZATION, "Bearer " + token.getAccessToken())
+                .retrieve()
+                .bodyToMono(SimilarTransactionsForUpdates.class)
+                .block();
+    }
+
     private TransactionPage getTransactionsFromYts(AccessToken token, UUID userId, DateInterval dateInterval, List<UUID> accountIds, Next next) {
         return webClient.get()
                 .uri(uriBuilder -> buildUri(uriBuilder, userId, dateInterval, accountIds, next))
