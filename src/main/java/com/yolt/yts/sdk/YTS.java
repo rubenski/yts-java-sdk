@@ -11,6 +11,7 @@ import com.yolt.yts.sdk.service.account.AccountService;
 import com.yolt.yts.sdk.service.site.Site;
 import com.yolt.yts.sdk.service.site.SiteService;
 import com.yolt.yts.sdk.service.transaction.*;
+import com.yolt.yts.sdk.service.transaction.enrichment.*;
 import com.yolt.yts.sdk.service.user.KycDetails;
 import com.yolt.yts.sdk.service.user.User;
 import com.yolt.yts.sdk.service.user.UserService;
@@ -23,6 +24,7 @@ import com.yolt.yts.sdk.service.usersite.model.usersite.UserSite;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,6 +38,7 @@ public class YTS {
     private final UserService userService;
     private final AccountService accountService;
     private final TransactionService transactionService;
+    private final TransactionEnrichmentService transactionEnrichmentService;
 
     private final AccessTokenStrategy accessTokenStrategy;
 
@@ -50,6 +53,7 @@ public class YTS {
         this.userService = new UserService(webClient);
         this.accountService = new AccountService(webClient);
         this.transactionService = new TransactionService(webClient);
+        this.transactionEnrichmentService = new TransactionEnrichmentService(webClient);
 
         final SlightlyLazyAccessTokenStrategy slightlyLazyAccessTokenStrategy = new SlightlyLazyAccessTokenStrategy();
         slightlyLazyAccessTokenStrategy.setAccessTokenService(accessTokenService);
@@ -67,6 +71,7 @@ public class YTS {
         this.userService = new UserService(webClient);
         this.accountService = new AccountService(webClient);
         this.transactionService = new TransactionService(webClient);
+        this.transactionEnrichmentService = new TransactionEnrichmentService(webClient);
 
         this.accessTokenStrategy = accessTokenStrategy;
     }
@@ -197,5 +202,23 @@ public class YTS {
 
     public TransactionPage getTransactions(@NonNull UUID userId, @NonNull DateInterval dateInterval, @NonNull List<UUID> accountIds, @NonNull Next next) {
         return transactionService.getTransactions(getToken(), userId, dateInterval, accountIds, next);
+    }
+
+    // Enrichment
+
+    public MerchantSuggestions getMerchantSuggestions(@NonNull UUID userId) {
+        return transactionEnrichmentService.getMerchantSuggestions(getToken(), userId);
+    }
+
+    public SimilarTransactionsForUpdates getSimilarTransactions(@NonNull UUID userId, @NonNull UUID accountId, @NonNull UUID transactionId, @NonNull LocalDate date) {
+        return transactionEnrichmentService.getSimilarTransactions(getToken(), userId, accountId, transactionId, date);
+    }
+
+    public EnrichmentUpdateActivity updateMerchantForTransaction(@NonNull UUID userId, @NonNull SingleTransactionMerchantUpdate singleTransactionMerchantUpdate) {
+        return this.transactionEnrichmentService.updateMerchantForTransaction(getToken(), userId, singleTransactionMerchantUpdate);
+    }
+
+    public EnrichmentUpdateActivity updateMerchantsForSimilarTransactions(@NonNull UUID userId, @NonNull SimilarTransactionsMerchantUpdate similarTransactionsMerchantUpdate) {
+        return this.transactionEnrichmentService.updateMerchantForSimilarTransactions(getToken(), userId, similarTransactionsMerchantUpdate);
     }
 }

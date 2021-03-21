@@ -31,6 +31,7 @@ public class AccessTokenService {
                               @NonNull AccessTokenConfig accessTokenConfig,
                               @NonNull UUID clientId) {
         final KeyStore keyStore = PfxLoader.load(accessTokenConfig.getSigningKeyStore(), accessTokenConfig.getSigningKeyStorePw());
+        log.info("SDK will sign requests for access tokens with key [{}]", accessTokenConfig.getYtsSignatureVerificationId());
         if (!keyStore.containsAlias(accessTokenConfig.getSigningKeyAlias())) {
             throw new RuntimeException("Keystore " + accessTokenConfig.getSigningKeyStore() + " doesn't contain a signing key with alias " + accessTokenConfig.getSigningKeyAlias());
         }
@@ -41,7 +42,7 @@ public class AccessTokenService {
     }
 
     public AccessToken getToken() {
-        log.debug("Refreshing YTS access tokenss");
+        log.debug("Getting new access token. Signing request with key [{}]", ytsVerificationKeyId);
         return webClient.post().uri(Constants.PATH_TOKENS).body(BodyInserters
                 .fromFormData("request_token", createRequestToken())
                 .with("grant_type", "client_credentials"))
