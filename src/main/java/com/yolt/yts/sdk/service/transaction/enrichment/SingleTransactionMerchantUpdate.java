@@ -14,5 +14,5 @@ public class SingleTransactionMerchantUpdate {
     private UUID accountId;
     private String id;
     private LocalDate date;
-    private String merchant;
+    private String counterpartyName;
 }

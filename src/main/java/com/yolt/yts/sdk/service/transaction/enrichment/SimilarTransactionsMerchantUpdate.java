@@ -13,5 +13,5 @@ import java.util.UUID;
 public class SimilarTransactionsMerchantUpdate {
     private UUID updateSessionId;
     private Set<String> groupSelectors;
-    private String newCounterpartyName;
+    private String counterpartyName;
 }

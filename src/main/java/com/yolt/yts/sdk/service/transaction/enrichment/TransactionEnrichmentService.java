@@ -48,7 +48,7 @@ public class TransactionEnrichmentService {
     }
 
     public EnrichmentUpdateActivity updateMerchantForTransaction(AccessToken token, UUID userId, SingleTransactionMerchantUpdate merchantUpdate) {
-        return webClient.post()
+        return webClient.patch()
                 .uri(uriBuilder -> {
                     return uriBuilder.path(String.format(PATH_MERCHANT_UPDATE_SINGLE, userId.toString())).build();
                 })
