@@ -6,9 +6,7 @@ debt collection, instant lending and others.
 
 Read the docs at https://developer.yolt.com/docs. 
 
-This Java SDK is a personal project that further simplifies connecting to YTS API. 
-This SDK is not an official YTS product and comes without YTS support or guarantees. 
-Please direct any questions you may have at me directly.
+This Java SDK is a personal project that further simplifies connecting to YTS API. It currently covers AIS. PIS is in progress.
 
 ### Setting up the SDK
 The SDK needs the following information to be able to work with YTS API.
@@ -65,10 +63,7 @@ This doesn't mean there are no forms at all. For banks like Credit Agricole, Ban
 implemented a region selection form. These are supported by the `SelectField` class, so these banks are supported
 via the SDK.
 
-If an embedded flow must be supported, the following changes should be implemented:
-- Richer form domain in order to support the `container` form component and additional form fields (text, date, number, radio, etc)
-- Encryption instructions and a public key on the form step for supporting encryption of credentials
-- A call to the `/vx/connect` endpoint without `redirectUrlId` parameter should be supported
+
 
 
 
